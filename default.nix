@@ -9,7 +9,7 @@ stdenvNoCC.mkDerivation (finalAttrs: rec {
   # Remote tarball (preferred for reproducibility)
   src = fetchurl {
     url = "https://github.com/openai/codex/releases/download/rust-v0.21.0/codex-x86_64-unknown-linux-musl.tar.gz";
-    sha256 = "0p9c8dn7wqyfi4jsbb4jx9r0flavli9k7r4xsi1bvqil1b2fy001";
+    sha256 = "167kk71agil905z0g5maz57iz3p0d4pv0s3dhd1246i1h4la0145";
   };
 
   # If the tarball unpacks straight into files with no top-level directory:
