@@ -8,7 +8,7 @@ stdenvNoCC.mkDerivation (finalAttrs: rec {
 
   # Remote tarball (preferred for reproducibility)
   src = fetchurl {
-    url = "https://github.com/openai/codex/releases/download/rust-v0.21.0/codex-x86_64-unknown-linux-gnu.tar.gz";
+    url = "https://github.com/openai/codex/releases/download/rust-v0.21.0/codex-x86_64-unknown-linux-musl.tar.gz";
     sha256 = "0p9c8dn7wqyfi4jsbb4jx9r0flavli9k7r4xsi1bvqil1b2fy001";
   };
 
@@ -31,7 +31,7 @@ stdenvNoCC.mkDerivation (finalAttrs: rec {
 
 		# Install supporting files
     mkdir -p $out/bin
-		install -m755 codex-x86_64-unknown-linux-gnu $out/bin/${pname}
+		install -m755 codex-x86_64-unknown-linux-musl $out/bin/${pname}
 
     runHook postInstall
   '';
@@ -43,6 +43,11 @@ stdenvNoCC.mkDerivation (finalAttrs: rec {
 
 		wrapProgram $out/bin/codex \
 			--prefix LD_LIBRARY_PATH : "$libPath" \
+	'';
+
+	postFixup = ''
+			wrapProgram "$out/bin/${pname}" \
+				--prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.python3 ]}
 	'';
 
   meta = with lib; {
